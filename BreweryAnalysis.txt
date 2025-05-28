@@ -1,0 +1,68 @@
+USE International_Breweries;
+
+CREATE TABLE IF NOT EXISTS TERRITORIES(
+COUNTRY_ID INT PRIMARY KEY AUTO_INCREMENT,
+COUNTRY VARCHAR(7) NOT NULL,
+TERRITORY VARCHAR(11) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS DRINK_BRANDS(
+    BRAND_ID INT PRIMARY KEY AUTO_INCREMENT,
+    BRANDS VARCHAR(12),
+    BRAND_CATEGORY VARCHAR(4));
+
+
+-- THESE ARE ONE TIME QUERIES
+
+## CREATE INDEX IDX_WEST_AFRICAN_COUNNTRIES
+## ON TERRITORIES(COUNTRY);
+
+## CREATE INDEX Idx_Brands
+## ON Drink_Brands(Brands);
+
+-- INSERT INTO TERRITORIES(COUNTRY_ID,COUNTRY,TERRITORY)
+-- VALUES(LAST_INSERT_ID(), 'Benin', 'Francophone'),
+      -- (LAST_INSERT_ID(), 'Ghana', 'Anglophone'),
+      -- (LAST_INSERT_ID(), 'Nigeria', 'Anglophone'),
+      -- (LAST_INSERT_ID(), 'Senegal', 'Francophone'),
+      -- (LAST_INSERT_ID(), 'Togo', 'Francophone');
+
+-- INSERT INTO DRINK_BRANDS(BRANDS, BRAND_CATEGORY)
+-- VALUES('Beta Malt',   'Malt'),
+     -- ('Budweiser',   'Beer'),
+	 -- ('Castle Lite', 'Beer'),
+	 -- ('Eagle Lager', 'Beer'),
+	 -- ('Grand Malt',  'Malt'),
+	 -- ('Hero',        'Beer'),
+	 -- ('Trophy',      'Beer');
+      
+DROP TABLE Brewery_Analysis;
+
+CREATE TABLE IF NOT EXISTS Brewery_Analysis(
+    SALES_ID    INT PRIMARY KEY,
+    SALES_REP  VARCHAR(20),
+    EMAIL      VARCHAR(150),
+    BRANDS     VARCHAR (12), FOREIGN KEY(BRANDS) REFERENCES DRINK_BRANDS(BRANDS),
+    PLANT_COST INT,
+    UNIT_PRICE INT,
+    QUANTITY   INT,
+    COST       INT,
+    PROFIT     INT NOT NULL,
+    COUNTRY    VARCHAR(7), FOREIGN KEY(COUNTRY) REFERENCES TERRITORIES(COUNTRY),
+    REGION     VARCHAR(12),
+    MONTHS     VARCHAR(9),
+    YEARS      YEAR);
+
+
+
+
+-- RUN THESE LINES IN YOUR CLI TO IMPORT DATA FROM Excel(CSV FILE)--
+-- mysql -u root -p --local_infile=1
+
+-- LOAD DATA LOCAL INFILE 'C:/Users/SB/Documents/AEA/International Breweries/International_Breweries-MySQL-MyCopy.csv'
+-- INTO TABLE Brewery_Analysis
+-- FIELDS TERMINATED BY ','
+-- ENCLOSED BY '"'
+-- LINES TERMINATED BY '\n'
+-- IGNORE 1 ROWS;
+
